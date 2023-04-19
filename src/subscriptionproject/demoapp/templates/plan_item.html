@@ -2,7 +2,7 @@
 {% block content %}
 <section>
     <article>
-        
+
         <h1>Plan item</h1>
         <span>
             <a href="{% url 'home' %}">Home</a>/
@@ -21,10 +21,28 @@
                 <p>
                     ${{plan_item.price}}
                 </p>
+
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'subscribe' pk=plan_item.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Subscribe</button>
+                </form>
+                {% else %}
+                <p>Please <a href="{% url 'login' %}"> login</a> to continue.</p>
+                {% endif %}
             </div>
 
         </div>
 
     </article>
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 </section>
 {% endblock %}
