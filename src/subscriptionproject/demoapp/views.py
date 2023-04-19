@@ -72,5 +72,8 @@ def display_plan_item(request, pk=None):
             plan = plan_item,
             is_active = True,
         )
+        invoice = Invoice()
+        invoice.subscription = subscription
+        invoice.save()
         return redirect('my_account')
     return render(request, 'plan_item.html', {"plan_item": plan_item})
