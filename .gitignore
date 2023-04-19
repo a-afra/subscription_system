@@ -5,6 +5,7 @@
 __pycache__
 db.sqlite3
 media
+migrations
 
 # Backup files #
 *.bak
@@ -114,7 +115,7 @@ venv.bak/
 # Sublime Text #
 *.tmlanguage.cache
 *.tmPreferences.cache
-*.stTheme.cache 
+*.stTheme.cache
 *.sublime-workspace
 *.sublime-project
 
@@ -135,3 +136,4 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+todo

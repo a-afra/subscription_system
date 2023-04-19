@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+    <article>
+        
+        <h1>Plan item</h1>
+        <span>
+            <a href="{% url 'home' %}">Home</a>/
+            {{plan_item.name}}
+        </span>
+
+        <div class="row">
+
+            <div class="column">
+                <h2>
+                    {{plan_item.name}}
+                </h2>
+                <p>
+                    {{plan_item.description}}
+                </p>
+                <p>
+                    ${{plan_item.price}}
+                </p>
+            </div>
+
+        </div>
+
+    </article>
+</section>
+{% endblock %}
