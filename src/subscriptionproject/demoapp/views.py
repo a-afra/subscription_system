@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .models import SubscriptionPlan
+from .models import SubscriptionPlan, Subscription, Invoice
 from .forms import SignupForm, LoginForm
 
 # Create your views here.
@@ -16,7 +16,15 @@ def about(request):
 
 @login_required
 def my_account(request):
-    return render(request, 'my_account.html')
+    user = request.user
+    subscriptions = Subscription.objects.filter(customer=user)
+    invoices = Invoice.objects.filter(subscription__customer=user)
+    context = {
+        'user': user,
+        'subscriptions': subscriptions,
+        'invoices': invoices
+    }
+    return render(request, 'my_account.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -32,7 +40,7 @@ def login_view(request):
 
     elif request.method == 'GET':
         form = LoginForm()
-        
+
     return render(request, 'login.html', {'form': form})
 
 def signup_view(request):

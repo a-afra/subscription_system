@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>My Account</h2>
+<p>Username: {{ user.username }}</p>
+<p>Credit: {{ user.credit }}</p>
+
+<h3>Subscriptions</h3>
+{% if subscriptions %}
+  <ul>
+    {% for subscription in subscriptions %}
+      <li>{{ subscription.plan.name }} - {{ subscription.plan.price }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No subscriptions found.</p>
+{% endif %}
+
+<h3>Invoices</h3>
+{% if invoices %}
+  <table>
+    <thead>
+      <tr>
+        <th>Subscription</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for invoice in invoices %}
+        <tr>
+          <td>{{ invoice.subscription.plan.name }}</td>
+          <td>{{ invoice.start_date }}</td>
+          <td>{{ invoice.end_date }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No invoices found.</p>
+{% endif %}
+{% endblock %}
