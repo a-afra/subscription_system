@@ -65,4 +65,12 @@ def display_plan_item(request, pk=None):
         plan_item = SubscriptionPlan.objects.get(pk=pk)
     else:
         plan_item = ''
+
+    if request.method == 'POST':
+        subscription = Subscription.objects.create(
+            customer=request.user,
+            plan = plan_item,
+            is_active = True,
+        )
+        return redirect('my_account')
     return render(request, 'plan_item.html', {"plan_item": plan_item})

@@ -2,7 +2,7 @@
 {% block content %}
 <section>
     <article>
-        
+
         <h1>Plan item</h1>
         <span>
             <a href="{% url 'home' %}">Home</a>/
@@ -21,6 +21,15 @@
                 <p>
                     ${{plan_item.price}}
                 </p>
+
+                {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Subscribe">
+                </form>
+                {% else %}
+                <p>Please <a href="{% url 'login' %}"> login</a> to continue.</p>
+                {% endif %}
             </div>
 
         </div>

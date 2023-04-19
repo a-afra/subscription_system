@@ -24,7 +24,7 @@ class Subscription(models.Model):
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.plan.name
+        return f'customer {self.customer.username} {self.plan.name} plan'
 
 
 class Invoice(models.Model):
