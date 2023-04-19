@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import SubscriptionPlan, Subscription, Invoice
 from .forms import SignupForm, LoginForm
+from django.db.models import Sum
 
 # Create your views here.
 def home(request):
@@ -87,3 +88,23 @@ def subscribe(request, pk=None):
         invoice.subscription = subscription
         invoice.save()
         return redirect('my_account')
+
+
+@login_required
+def my_statistics(request):
+    subscriptions = Subscription.objects.filter(customer=request.user)
+    total_invoices = 0
+    total_spending = 0
+    for subscription in subscriptions:
+        invoices = Invoice.objects.filter(subscription=subscription)
+        total_invoices += invoices.count()
+        sum_of_amounts = invoices.aggregate(Sum('amount'))['amount__sum']
+        if sum_of_amounts is not None:
+            total_spending += sum_of_amounts
+
+    context = {
+        'total_invoices': total_invoices,
+        'total_spending': total_spending
+    }
+
+    return render(request, 'my_statistics.html', context)

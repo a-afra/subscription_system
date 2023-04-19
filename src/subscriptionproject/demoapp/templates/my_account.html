@@ -36,6 +36,7 @@
       {% endfor %}
     </tbody>
   </table>
+  <a href="{% url 'my_statistics' %}" class="btn btn-primary">View My Statistics</a>
 {% else %}
   <p>No invoices found.</p>
 {% endif %}

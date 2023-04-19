@@ -11,4 +11,5 @@ urlpatterns = [
     path('accounts/logout/', views.logout_view, name="logout"),
     path('plan_item/<int:pk>', views.display_plan_item, name="plan_item"),
     path('subscribe/<int:pk>', views.subscribe, name="subscribe"),
+    path('my-statistics/', views.my_statistics, name='my_statistics'),
 ]
