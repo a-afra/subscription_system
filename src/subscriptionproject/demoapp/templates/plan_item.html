@@ -23,9 +23,9 @@
                 </p>
 
                 {% if user.is_authenticated %}
-                <form method="post">
+                <form method="post" action="{% url 'subscribe' pk=plan_item.pk %}">
                     {% csrf_token %}
-                    <input type="submit" value="Subscribe">
+                    <button type="submit">Subscribe</button>
                 </form>
                 {% else %}
                 <p>Please <a href="{% url 'login' %}"> login</a> to continue.</p>
@@ -35,5 +35,14 @@
         </div>
 
     </article>
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 </section>
 {% endblock %}

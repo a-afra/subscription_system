@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import SubscriptionPlan, Subscription, Invoice
 from .forms import SignupForm, LoginForm
 
@@ -65,15 +66,24 @@ def display_plan_item(request, pk=None):
         plan_item = SubscriptionPlan.objects.get(pk=pk)
     else:
         plan_item = ''
+    return render(request, 'plan_item.html', {"plan_item": plan_item})
+
+
+def subscribe(request, pk=None):
+    plan = SubscriptionPlan.objects.get(pk=pk)
+    customer = request.user
 
     if request.method == 'POST':
+        if Subscription.objects.filter(customer=customer, plan=plan, is_active=True).exists():
+            messages.error(request, 'You already have an active subscription for this plan.')
+            return redirect('plan_item', pk=pk)
+
         subscription = Subscription.objects.create(
-            customer=request.user,
-            plan = plan_item,
+            customer = customer,
+            plan = plan,
             is_active = True,
         )
         invoice = Invoice()
         invoice.subscription = subscription
         invoice.save()
         return redirect('my_account')
-    return render(request, 'plan_item.html', {"plan_item": plan_item})
