@@ -71,9 +71,9 @@
                   <form method="post" action="{% url 'change_subscription_status' pk=subscription.pk %}">
                     {% csrf_token %}
                     {% if subscription.is_active %}
-                      <input type="submit" class="button is-danger" value="Deactivate">
+                      <input type="submit" class="button is-full-width is-danger" value="Deactivate">
                     {% else %}
-                      <input type="submit" class="button is-primary" value="Activate">
+                      <input type="submit" class="button is-full-width is-primary" value="Activate">
                     {% endif %}
                   </form>
                 </td>
@@ -118,7 +118,17 @@
               {% endfor %}
               </tbody>
             </table>
-            <a href="{% url 'my_statistics' %}" class="button is-link">View My Statistics</a>
+            <div class="columns">
+              <div class="column is-2">
+                <form method="post" action="{% url 'refresh_invoices' pk=user.pk %}">
+                  {% csrf_token %}
+                  <button class="button is-fullwidth is-link" type="submit">Refresh Invoices</button>
+                </form>
+              </div>
+              <div class="column is-2">
+                <a href="{% url 'my_statistics' %}" class="button is-fullwidth is-link">View My Statistics</a>
+              </div>
+            </div>
             {% else %}
             <p>No invoices found.</p>
             {% endif %}

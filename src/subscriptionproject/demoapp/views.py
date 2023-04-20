@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import SubscriptionPlan, Subscription, Invoice
+from .models import SubscriptionPlan, Subscription, Invoice, Customer
 from .forms import SignupForm, LoginForm
 from django.db.models import Sum
+from django.utils import timezone
 
 # Create your views here.
 def home(request):
@@ -82,9 +83,13 @@ def subscribe(request, pk=None):
             plan = plan,
             is_active = True,
         )
-        invoice = Invoice()
-        invoice.subscription = subscription
-        invoice.save()
+        current_time = timezone.now()
+        invoice = Invoice.objects.create(
+            start_date = current_time,
+            end_date = current_time + timezone.timedelta(minutes=10),
+            subscription = subscription,
+            amount = subscription.plan.price
+        )
         return redirect('my_account')
 
 
@@ -128,3 +133,28 @@ def change_subscription_status(request, pk=None):
         subscription.save()
         messages.success(request, 'Subscription status updated successfully!')
         return redirect('my_account')
+
+
+@login_required
+def refresh_invoices(request, pk=None):
+    user = request.user
+    subscriptions = Subscription.objects.filter(customer=user)
+    period = 600
+    for subscription in subscriptions:
+        if subscription.is_active:
+            latest_invoice = Invoice.objects.filter(subscription=subscription).order_by('-end_date').first()
+            if latest_invoice:
+                current_time = timezone.now()
+                while latest_invoice and latest_invoice.end_date < current_time:
+                    start_date = latest_invoice.end_date
+                    end_date = start_date + timezone.timedelta(seconds=period)
+                    # create new invoice
+                    new_invoice = Invoice.objects.create(
+                        start_date=start_date,
+                        end_date=end_date,
+                        subscription=subscription,
+                        amount=subscription.plan.price
+                    )
+                    latest_invoice = new_invoice
+                return redirect('my_account')
+            return redirect('my_account')
