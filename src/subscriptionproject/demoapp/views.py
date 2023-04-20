@@ -9,9 +9,7 @@ from django.db.models import Sum
 
 # Create your views here.
 def home(request):
-    plans_data = SubscriptionPlan.objects.all()
-    main_data = {"plans": plans_data}
-    return render(request, 'index.html', main_data)
+    return render(request, 'index.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -95,16 +93,38 @@ def my_statistics(request):
     subscriptions = Subscription.objects.filter(customer=request.user)
     total_invoices = 0
     total_spending = 0
+    context = {}
     for subscription in subscriptions:
         invoices = Invoice.objects.filter(subscription=subscription)
-        total_invoices += invoices.count()
-        sum_of_amounts = invoices.aggregate(Sum('amount'))['amount__sum']
-        if sum_of_amounts is not None:
-            total_spending += sum_of_amounts
+        invoices_quantity = invoices.count()
+        if invoices_quantity != 0:
+            total_invoices += invoices_quantity
+            cost_per_plan = invoices.aggregate(Sum('amount'))['amount__sum']
+            if cost_per_plan is not None:
+                total_spending += cost_per_plan
+            context[subscription.plan.name] = {
+                'invoices_quantity': invoices_quantity,
+                'cost_per_plan': cost_per_plan
+                }
 
-    context = {
+    total = {
         'total_invoices': total_invoices,
         'total_spending': total_spending
     }
 
-    return render(request, 'my_statistics.html', context)
+    return render(request, 'my_statistics.html', {'statistics': context, 'total': total})
+
+
+def plans(request):
+    plans_data = SubscriptionPlan.objects.all()
+    main_data = {"plans": plans_data}
+    return render(request, 'plans.html', main_data)
+
+
+def change_subscription_status(request, pk=None):
+    subscription = Subscription.objects.get(pk=pk)
+    if request.method == 'POST':
+        subscription.is_active = not subscription.is_active
+        subscription.save()
+        messages.success(request, 'Subscription status updated successfully!')
+        return redirect('my_account')
