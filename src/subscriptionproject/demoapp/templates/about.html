@@ -1,2 +1,28 @@
 {% extends 'base.html' %}
-<h1>This is about page</h1>
+
+{% block content %}
+
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-8 is-variable">
+                <div class="column is-two-thirds has-text-left">
+                    <h1 class="title is-1">About US</h1>
+                    <p class="is-size-4">Hi everyone!</p>
+                    <p class="is-size-4">Welcome to our subscription and invoicing app</p>
+                    <p class="is-size-4">we build this app using DJANGO.</p>
+                    <p class="is-size-4">Thank you for choosing our subscription and invoicing app.</p>
+                    <p class="is-size-4">Finally, feel free to contact us using the following links!</p>
+                    <br>
+                    <p class="is-size-4">
+                        <a href="https://www.linkedin.com/in/alireza-afra-b89a18181/" target="_blank">linkedin</a> |
+                        <a href="https://github.com/a-afra" target="_blank">github</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

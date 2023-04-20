@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Signup</h2>
+<div class="container has-text-centered signup-page-refrence">
+    <div class="column is-4 is-offset-4">
+        <p class="is-size-3">Signup</p>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Signup</button>
-</form>
+        <form method="post" class="box mt-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if form.errors %}
+            {% for error in form.errors %}
+            <div class="has-text-danger">
+            {{ error }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <button class="button is-block is-primary is-fullwidth is-medium mt-3" type="submit">Signup</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

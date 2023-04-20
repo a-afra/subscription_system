@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Login</h2>
+<div class="container has-text-centered">
+    <div class="column is-4 is-offset-4">
+        <p class="is-size-3">Login</p>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+        <form method="post" class="box mt-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="has-text-danger">
+            {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <button class="button is-block is-primary is-fullwidth is-medium mt-3" type="submit">Login</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

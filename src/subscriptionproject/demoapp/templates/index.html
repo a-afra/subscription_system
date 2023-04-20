@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>Plans</h1>
+<section class="hero is-medium has-background-grey-lighter has-text-centered">
+   <div class="hero-body">
+     <p class="title is-size-2">
+       Subscription System
+     </p>
+     <p class="subtitle">
+       subscription management system
+     </p>
+   </div>
+ </section>
 
-<div class="column">
-
-   {%for item in plans%}
-   <p>
-
-      <a href="{%url 'plan_item' pk=item.pk%}">
-         {{item.name}}
-      </a>
-
-      <span class="plan-price">
-         ${{item.price}}.00
-      </span>
-
-   </p>
-   {%endfor%}
-
-</div>
+<div class="columns mt-2 is-centered">
+   <div class="column is-3 has-text-centered">
+     <P class="is-size-3 mb-5">Registration</P>
+     <p>To get started, you'll need to create an account by filling out the registration form. As a registered user, you'll have access to use the system.</p>
+   </div>
+   <div class="column is-3 has-text-centered">
+      <P class="is-size-3 mb-5">Subscription</P>
+     <p>We offer three different subscription plans to meet your needs, so you can choose the one that works best for you.</p>
+   </div>
+   <div class="column is-3 has-text-centered">
+      <P class="is-size-3 mb-5">Statistics</P>
+     <p>As a registered user, you'll have access to detailed statistics and analytics about your customer subscriptions and invoices. </p>
+   </div>
+ </div>
 
 {% endblock %}
