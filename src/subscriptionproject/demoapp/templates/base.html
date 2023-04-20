@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,12 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscription System</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/style.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
 </head>
-<body>
-    
+<body class="has-background-light">
+
     {% include 'partials/_header.html' %}
 
+    <div class="mx-5 my-5">
     <main>{% block content %} {% endblock %}</main>
+    </div>
 
     {% include 'partials/_footer.html' %}
 

@@ -1,0 +1,38 @@
+input{
+    max-width: 100%;
+    width: 100%;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: none;
+    font-size: 1rem;
+    height: 3em;
+    justify-content: flex-start;
+    position: relative;
+    vertical-align: top;
+    writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    appearance: auto;
+    cursor: text;
+    background-color: rgb(195, 195, 195);
+    margin-bottom: 1em;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+}
+
+.helptext {
+    display: none;
+}
+
+div.signup-page-refrence ul {
+    display: none;
+}

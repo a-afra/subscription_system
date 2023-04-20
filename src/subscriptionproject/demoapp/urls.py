@@ -12,4 +12,7 @@ urlpatterns = [
     path('plan_item/<int:pk>', views.display_plan_item, name="plan_item"),
     path('subscribe/<int:pk>', views.subscribe, name="subscribe"),
     path('my-statistics/', views.my_statistics, name='my_statistics'),
+    path('plans/', views.plans, name='plans'),
+    path('change_subscription_status/<int:pk>/', views.change_subscription_status, name='change_subscription_status'),
+    path('refresh_invoices/', views.refresh_invoices, name='refresh_invoices'),
 ]

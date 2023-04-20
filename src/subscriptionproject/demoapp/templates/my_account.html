@@ -1,44 +1,144 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>My Account</h2>
-<p>Username: {{ user.username }}</p>
-<p>Credit: {{ user.credit }}</p>
 
-<h3>Subscriptions</h3>
-{% if subscriptions %}
+<nav class="breadcrumb mt-3" aria-label="breadcrumbs">
   <ul>
-    {% for subscription in subscriptions %}
-      <li>{{ subscription.plan.name }} - {{ subscription.plan.price }}</li>
-    {% endfor %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="#">My Account</a></li>
   </ul>
-{% else %}
-  <p>No subscriptions found.</p>
-{% endif %}
+</nav>
 
-<h3>Invoices</h3>
-{% if invoices %}
-  <table>
-    <thead>
-      <tr>
-        <th>Subscription</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for invoice in invoices %}
-        <tr>
-          <td>{{ invoice.subscription.plan.name }}</td>
-          <td>{{ invoice.start_date }}</td>
-          <td>{{ invoice.end_date }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a href="{% url 'my_statistics' %}" class="btn btn-primary">View My Statistics</a>
-{% else %}
-  <p>No invoices found.</p>
-{% endif %}
+<div class="my-account-page columns is-multiline is-centered">
+  <div class="column is-three-quarters">
+    <div class="my-account card ">
+      <header class="card-header">
+        <p class="card-header-title">My Account</p>
+      </header>
+
+      <div class="card-content columns is-multiline">
+        <div class="column">
+          <h2 class="subtitle">My information</h2>
+          <div class="columns is is-multiline box">
+            <div class="column">
+              <h3 class="has-text-grey">Username</h3>
+              <h3><strong>{{ user.username }}</strong></h3>
+            </div>
+
+            <div class="column">
+              <h3 class="has-text-grey">Email</h3>
+              <h3><strong>{{ user.email }}</strong></h3>
+            </div>
+
+            <div class="column">
+              <h3 class="has-text-grey">Credit</h3>
+              <h3><strong>{{ user.credit }}</strong></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="card-content columns is-multiline">
+        <div class="column">
+          <h2 class="subtitle">My Subscriptions</h2>
+
+          <div class="box mb-4">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="has-text-link">
+            {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% if subscriptions %}
+            <table class="table is-fullwidth">
+              <thead>
+              <tr>
+                <th>Subscription Plan</th>
+                <th>Price</th>
+                <th>Active/Deactive</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {% for subscription in subscriptions %}
+              <tr>
+                <td>{{ subscription.plan.name }} Plan</td>
+                <td>${{ subscription.plan.price }}</td>
+                <td>
+                  <form method="post" action="{% url 'change_subscription_status' pk=subscription.pk %}">
+                    {% csrf_token %}
+                    {% if subscription.is_active %}
+                      <input type="submit" class="button is-full-width is-danger" value="Deactivate">
+                    {% else %}
+                      <input type="submit" class="button is-full-width is-primary" value="Activate">
+                    {% endif %}
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+
+              </tbody>
+            </table>
+            {% else %}
+            <p>No subscriptions found.</p>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="card-content columns is-multiline">
+        <div class="column">
+          <h2 class="subtitle">My Invoices</h2>
+
+          <div class="box mb-4">
+            {% if invoices %}
+            <table class="table is-fullwidth">
+              <thead>
+              <tr>
+                <th>Id</th>
+                <th>For Plan</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {% for invoice in invoices %}
+              <tr>
+                <td>{{ invoice.id }}</td>
+                <td>{{ invoice.subscription.plan.name }}</td>
+                <td>{{ invoice.start_date }}</td>
+                <td>{{ invoice.end_date }}</td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <div class="columns">
+              <div class="column is-2">
+                <form method="post" action="{% url 'refresh_invoices' %}">
+                  {% csrf_token %}
+                  <button class="button is-fullwidth is-link" type="submit">Refresh Invoices</button>
+                </form>
+              </div>
+              <div class="column is-2">
+                <a href="{% url 'my_statistics' %}" class="button is-fullwidth is-link">View My Statistics</a>
+              </div>
+            </div>
+            {% else %}
+            <p>No invoices found.</p>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 {% endblock %}

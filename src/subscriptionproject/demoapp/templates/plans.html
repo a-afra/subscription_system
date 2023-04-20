@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<nav class="breadcrumb mt-3" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="#">Plans</a></li>
+    </ul>
+  </nav>
+
+<div class="content has-text-centered">
+    <p class="title">Plans</p>
+    <p>We offer three different subscription plans to meet your needs</p>
+    <p>so you can choose the one that works best for you.</p>
+    <p>Here's a quick overview of our subscription plans:</p>
+
+    <p>Basic: Our Basic plan is perfect for those who are just getting started.</p>
+    <p>Professional: Our Premium plan offers even more features and benefits.</p>
+    <p>Advanced: Our Elite plan is our top-tier offering, with access to all of our features and benefits.</p>
+
+</div>
+
+<div class="columns mt-3">
+    <div class="column"></div>
+    {% for item in plans %}
+    <div class="column">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    <a href="{%url 'plan_item' pk=item.pk%}">{{ item.name }}</a>
+                </p>
+            </header>
+            <div class="is-dark"><br></div>
+
+            <div class="card-content">
+                <div class="content">{{ item.description|linebreaksbr }}</div>
+            </div>
+
+            <footer class="card-footer">
+                <a class="card-footer-item">price: ${{item.price}}.00</a>
+                <a href="{%url 'plan_item' pk=item.pk%}" class="card-footer-item">Continue</a>
+            </footer>
+
+        </div>
+    </div>
+    {% endfor %}
+    <div class="column"></div>
+</div>
+
+{% endblock %}
