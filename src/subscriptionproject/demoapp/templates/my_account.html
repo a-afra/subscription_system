@@ -120,7 +120,7 @@
             </table>
             <div class="columns">
               <div class="column is-2">
-                <form method="post" action="{% url 'refresh_invoices' pk=user.pk %}">
+                <form method="post" action="{% url 'refresh_invoices' %}">
                   {% csrf_token %}
                   <button class="button is-fullwidth is-link" type="submit">Refresh Invoices</button>
                 </form>

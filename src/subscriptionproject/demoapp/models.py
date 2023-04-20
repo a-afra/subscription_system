@@ -36,11 +36,3 @@ class Invoice(models.Model):
 
     def __str__(self):
         return f'invoice {self.id} for {self.subscription.customer.username}'
-
-    """def save(self, *args, **kwargs):
-        # update start and end date before saving
-        self.start_date = timezone.now()
-        self.end_date = self.start_date + timezone.timedelta(minutes=10)
-        # calculate amount based on subscription price
-        self.amount = self.subscription.plan.price
-        super().save(*args, **kwargs)"""
