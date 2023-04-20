@@ -25,15 +25,15 @@ Let's get into some details. a user can:
 
 ### Installation
 
-Clone the repository:
+Clone the repository or download the ZIP file:
 ```bash
 git clone https://github.com/a-afra/subscription_system.git
-cd subscription-system
+cd subscription_system-master
 ```
 
 Create a virtual environment and activate it:
 ```bash
-python -m venv env
+python3 -m venv env
 ```
 
 Activate the virtual environment:
