@@ -16,8 +16,6 @@ This is a subscription management system built with Django.
 
 ## Requirements
 
-Let's get into some details. a user can:
-
 * Python 3.6 or higher
 * Django 3.2.8
 
